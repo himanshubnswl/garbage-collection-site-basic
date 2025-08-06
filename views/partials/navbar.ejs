@@ -1,0 +1,18 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+      <a href="/" class="logo">Garbage Collection System</a>
+    </div>
+    <div class="navbar-menu">
+      <a href="/" class="navbar-item">Home</a>
+      <% if (currentUser || isAdmin) { %>
+        <a href="/complaints" class="navbar-item">Complaints</a>
+        <a href="/auth/logout" class="navbar-item">Logout</a>
+        <% if (isAdmin) { %>
+          <a href="/admin/dashboard" class="navbar-item admin-link">Admin Dashboard</a>
+        <% } %>
+      <% } else { %>
+        <a href="/auth/login" class="navbar-item">Login</a>
+        <a href="/auth/signup" class="navbar-item">Sign Up</a>
+      <% } %>
+    </div>
+  </nav>

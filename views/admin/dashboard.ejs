@@ -1,0 +1,74 @@
+<%- include('../partials/header') %>
+
+<div class="admin-container">
+  <h1>Admin Dashboard</h1>
+  
+  <div class="stats-cards">
+    <div class="stat-card">
+      <h3>Pending Complaints</h3>
+      <div class="stat-number"><%= pendingCount %></div>
+    </div>
+    <div class="stat-card">
+      <h3>Completed Complaints</h3>
+      <div class="stat-number"><%= completedCount %></div>
+    </div>
+    <div class="stat-card">
+      <h3>Total Complaints</h3>
+      <div class="stat-number"><%= pendingCount + completedCount %></div>
+    </div>
+  </div>
+  
+  <h2>All Complaints</h2>
+  
+  <% if (complaints && complaints.length > 0) { %>
+    <div class="admin-complaints-list">
+      <table class="complaints-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reason</th>
+            <th>User</th>
+            <th>Address</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% complaints.forEach(complaint => { %>
+            <tr>
+              <td><%= complaint.id %></td>
+              <td><%= complaint.reason %></td>
+              <td><%= complaint.username %></td>
+              <td><%= complaint.address %></td>
+              <td><%= new Date(complaint.submitted_date).toLocaleDateString() %></td>
+              <td>
+                <span class="status status-<%= complaint.status %>">
+                  <%= complaint.status %>
+                </span>
+              </td>
+              <td>
+                <form action="/admin/update-status" method="POST" class="status-form">
+                  <input type="hidden" name="id" value="<%= complaint.id %>">
+                  <% if (complaint.status === 'pending') { %>
+                    <input type="hidden" name="status" value="completed">
+                    <button type="submit" class="btn-small">Mark Completed</button>
+                  <% } else { %>
+                    <input type="hidden" name="status" value="pending">
+                    <button type="submit" class="btn-small">Mark Pending</button>
+                  <% } %>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="no-complaints">
+      <p>There are no complaints submitted yet.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

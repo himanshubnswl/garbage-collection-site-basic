@@ -1,0 +1,33 @@
+<%- include('./partials/header') %>
+
+<div class="complaints-container">
+  <h1>My Complaints</h1>
+  
+  <div class="complaints-actions">
+    <a href="/complaints/submit" class="btn">Submit New Complaint</a>
+  </div>
+  
+  <% if (complaints && complaints.length > 0) { %>
+    <div class="complaints-list">
+      <% complaints.forEach(complaint => { %>
+        <div class="complaint-card">
+          <div class="complaint-header">
+            <h3><%= complaint.reason %></h3>
+            <span class="status status-<%= complaint.status %>"><%= complaint.status %></span>
+          </div>
+          <div class="complaint-body">
+            <p><strong>Address:</strong> <%= complaint.address %></p>
+            <p><strong>Description:</strong> <%= complaint.description %></p>
+            <p><strong>Submitted:</strong> <%= new Date(complaint.submitted_date).toLocaleDateString() %></p>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div class="no-complaints">
+      <p>You haven't submitted any complaints yet.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('./partials/footer') %>
